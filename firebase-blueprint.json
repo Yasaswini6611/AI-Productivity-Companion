@@ -1,0 +1,107 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User public profile and settings",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "theme": { "type": "string", "enum": ["light", "dark"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["displayName", "theme", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "User private PII, encrypted with AES-256",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "encryptedData": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "encryptedData", "updatedAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A task created by the user, representing an item to complete",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+        "status": { "type": "string", "enum": ["pending", "completed"] },
+        "dueDate": { "type": "string", "format": "date" },
+        "category": { "type": "string" },
+        "subtasks": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "priority", "status", "dueDate", "createdAt", "updatedAt"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "A habit to build",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "frequency": { "type": "string" },
+        "streak": { "type": "integer" },
+        "logs": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "frequency", "streak", "logs", "createdAt", "updatedAt"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "A medium/long term goal",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "targetDate": { "type": "string", "format": "date" },
+        "progress": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "targetDate", "progress", "createdAt", "updatedAt"]
+    },
+    "Recommendation": {
+      "title": "Recommendation",
+      "description": "AI-generated recommendations",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["content", "category", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/public/profile": {
+      "schema": "UserProfile",
+      "description": "Public profile and user settings"
+    },
+    "/users/{userId}/private/secure_info": {
+      "schema": "UserPrivateInfo",
+      "description": "Private PII information"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "User tasks"
+    },
+    "/users/{userId}/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "User tracked habits"
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "schema": "Goal",
+      "description": "User long-term goals"
+    },
+    "/users/{userId}/recommendations/{recId}": {
+      "schema": "Recommendation",
+      "description": "AI suggestions and tips"
+    }
+  }
+}
